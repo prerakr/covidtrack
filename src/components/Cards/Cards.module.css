@@ -1,9 +1,10 @@
 .container{
     margin: 50px 0;
+    width: 100%;
 }
 
 .card{
-    margin: 0 2% !important;
+    margin: 2% 2% !important;
 }
 
 .infected{
@@ -16,8 +17,9 @@
     border-bottom: 10px solid rgba(231, 31, 24, 0.938);
 }
 
+
 @media (max-width: 770px){
     .card {
-        margin:2% 0 !important;
+        margin:2% 2% !important;
     }
 }
