@@ -4,7 +4,7 @@
 		{
 			"type": "shell",
 			"label": "Install Vite and migrate project",
-			"command": "npm install --save-dev vite && npm install react-refresh @vitejs/plugin-react-refresh && npm uninstall react-scripts && mv public/index.html public/index.html.bak && cp public/index.html.bak index.html && rm -rf build && rm -rf public && echo '{\n  \"plugins\": [\"@vitejs/plugin-react-refresh\"]\n}' > vite.config.js",
+			"command": "./scripts/migrate-to-vite.sh",
 			"group": "build",
 			"problemMatcher": []
 		}
