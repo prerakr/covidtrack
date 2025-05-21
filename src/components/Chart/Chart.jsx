@@ -9,15 +9,14 @@ const Chart = ({data : {confirmed, recovered, deaths}, country}) => {
     const [dailyData, setDailyData] = useState([]);
 
     useEffect(() => {
-        const fetchAPI = async()=>{
-           setDailyData(await fetchDailyData());
+        const fetchAPI = async(country)=>{
+           setDailyData(await fetchDailyData(country));
         }
-        console.log(dailyData);
-        fetchAPI();
-    }, []);
+        fetchAPI(country);
+    }, [country]);
 
     const lineChart = (
-        dailyData.length !==0 ?
+        dailyData && dailyData.length !==0 ?
         <Line
             data={{
                 labels: dailyData.map(({date}) => date),
@@ -36,39 +35,13 @@ const Chart = ({data : {confirmed, recovered, deaths}, country}) => {
             }}
         /> : null
     );
-    const barChart = (
-        confirmed ?
-        <Bar 
-            data = {{
-                labels: ['Infected', 'Recovered', 'Deaths'],
-
-                datasets:[{
-                    label: 'People',
-                    backgroundColor:[
-                        'rgba(0,0,255,0.5)',
-                        'rgba(0,255,0,0.5)',
-                        'rgba(255,0,0,0.5)',
-                    ],
-
-                    data:[confirmed.value, recovered.value, deaths.value]
-
-                }]
-
-            }}
-
-            options={{
-                legend: {display:false},
-                title: {display: true, text: `${country}`}
-
-            }}
-        />
-        :null
-    );
+    // barChart removed as per requirement to always show lineChart for historical data.
+    // The 'data' prop (confirmed, recovered, deaths) is no longer used by this simplified Chart component.
+    // The 'country' prop is still used by useEffect to fetch the correct historical data.
 
     return(
         <div className={styles.container}>
-        {country ? barChart : lineChart}
-
+        {lineChart}
         </div>
     )
 }
