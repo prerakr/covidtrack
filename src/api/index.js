@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const url = 'https://covid19.mathdro.id/api';
+const url = 'https://disease.sh/v3/covid-19';
 
 export const fetchData = async(country) => {
-    let changeableUrl = url;
+    let changeableUrl = `${url}/all`;
 
     if(country){
         changeableUrl = `${url}/countries/${country}`
@@ -11,39 +11,60 @@ export const fetchData = async(country) => {
 
     try{
 
-        const {data: {confirmed, recovered,deaths, lastUpdate }} = await axios.get(changeableUrl);
+        const {data: {cases: confirmed, recovered, deaths, updated: lastUpdate }} = await axios.get(changeableUrl);
 
         return {confirmed, recovered, deaths, lastUpdate};
         
     } catch(error){
-
-
+        console.log(error);
+        return { confirmed: null, recovered: null, deaths: null, lastUpdate: null }; // Return default object
     }
 
 
 }
 
-export const fetchDailyData = async() =>{
+export const fetchDailyData = async(country) =>{
     try{
-        const {data} = await axios.get(`${url}/daily`);
+        let historicalDataUrl = `${url}/historical/all?lastdays=all`;
+        if (country) {
+            historicalDataUrl = `${url}/historical/${country}?lastdays=all`;
+        }
 
-        const modifiedData = data.map((dailyData) => ({
-        confirmed: dailyData.confirmed.total,
-        deaths: dailyData.deaths.total,
-        date: dailyData.reportDate,
+        const { data } = await axios.get(historicalDataUrl);
+        
+        let cases, deaths;
+        if (data.timeline) { // Country-specific data has a 'timeline' object
+            cases = data.timeline.cases;
+            deaths = data.timeline.deaths;
+            // recovered = data.timeline.recovered; // Removed as it's not used
+        } else { // Global data
+            cases = data.cases;
+            deaths = data.deaths;
+            // recovered = data.recovered; // Removed as it's not used
+        }
+
+        if (!cases) { // If cases is undefined (e.g. country not found or no data)
+            return []; // Return empty array to prevent errors in chart component
+        }
+
+        const modifiedData = Object.keys(cases).sort().map((date) => ({
+        confirmed: cases[date],
+        deaths: deaths[date],
+        date: date,
         }));
 
         return modifiedData;
     }catch(error){
-
+        console.log(error);
+        return []; // Return empty array on error
     }
 }
 
 export const fetchCountries = async() =>{
 try{
-    const {data: {countries}} = await axios.get(`${url}/countries`);
+    const {data} = await axios.get(`${url}/countries`);
 
-    return countries.map((country) => country.name);
+    return data.map((country) => country.country);
 
 }catch(error){
     console.log(error);
