@@ -17,7 +17,7 @@ export const fetchData = async(country) => {
         
     } catch(error){
         console.log(error);
-
+        return { confirmed: null, recovered: null, deaths: null, lastUpdate: null }; // Return default object
     }
 
 
