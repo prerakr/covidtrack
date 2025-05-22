@@ -47,7 +47,7 @@ export const fetchDailyData = async(country) =>{
             return []; // Return empty array to prevent errors in chart component
         }
 
-        const modifiedData = Object.keys(cases).map((date) => ({
+        const modifiedData = Object.keys(cases).sort().map((date) => ({
         confirmed: cases[date],
         deaths: deaths[date],
         date: date,
