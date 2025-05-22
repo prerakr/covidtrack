@@ -32,15 +32,15 @@ export const fetchDailyData = async(country) =>{
 
         const { data } = await axios.get(historicalDataUrl);
         
-        let cases, deaths, recovered;
+        let cases, deaths;
         if (data.timeline) { // Country-specific data has a 'timeline' object
             cases = data.timeline.cases;
             deaths = data.timeline.deaths;
-            recovered = data.timeline.recovered; // Though not used in chart, good to be consistent
+            // recovered = data.timeline.recovered; // Removed as it's not used
         } else { // Global data
             cases = data.cases;
             deaths = data.deaths;
-            recovered = data.recovered; // Though not used in chart, good to be consistent
+            // recovered = data.recovered; // Removed as it's not used
         }
 
         if (!cases) { // If cases is undefined (e.g. country not found or no data)
