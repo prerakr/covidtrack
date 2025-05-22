@@ -35,8 +35,6 @@ const Chart = ({data : {confirmed, recovered, deaths}, country}) => {
             }}
         /> : null
     );
-    // barChart removed as per requirement to always show lineChart for historical data.
-    // The 'data' prop (confirmed, recovered, deaths) is no longer used by this simplified Chart component.
     // The 'country' prop is still used by useEffect to fetch the correct historical data.
 
     return(
