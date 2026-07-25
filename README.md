@@ -1,68 +1,95 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🦠 CovidTrack
 
-## Available Scripts
+A modern, real-time **COVID-19 statistics dashboard** — global and per-country
+figures with animated stat cards, an interactive historical-trend chart, and a
+light/dark theme. Built with **React 18** and **Vite**.
 
-In the project directory, you can run:
+<p align="center">
+  <em>Data from the open <a href="https://disease.sh">disease.sh</a> API
+  (Johns Hopkins University, Worldometers & others).</em>
+</p>
 
-### `yarn start`
+---
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ✨ Features
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- **Live global & country stats** — confirmed, active, recovered, deaths, critical, and tests.
+- **Searchable country picker** with flags and full keyboard navigation.
+- **Interactive trend chart** (Chart.js) with a cumulative / daily-new toggle.
+- **Animated counters** with an ease-out curve that respect `prefers-reduced-motion`.
+- **Light & dark themes** — auto-detected from the system, persisted across visits.
+- **Responsive, accessible UI** — fluid grid, ARIA roles, focus-visible outlines.
+- **Graceful loading & error states** — shimmer skeletons and retry actions.
 
-### `yarn test`
+## 🛠️ Tech stack
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Concern     | Choice                          |
+| ----------- | ------------------------------- |
+| Framework   | React 18 (function components)  |
+| Build tool  | Vite 6                          |
+| Charts      | Chart.js 4 + react-chartjs-2 5  |
+| Data source | [disease.sh](https://disease.sh) REST API |
+| HTTP        | Native `fetch` (no dependency)  |
+| Styling     | Hand-rolled CSS design system with custom properties |
 
-### `yarn build`
+## 🚀 Getting started
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Requires **Node.js 18+**.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```bash
+# Install dependencies
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Start the dev server (http://localhost:3000)
+npm run dev
 
-### `yarn eject`
+# Type-check-free production build → ./build
+npm run build
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Preview the production build locally
+npm run preview
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Lint
+npm run lint
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 📁 Project structure
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+covidtrack/
+├── index.html              # Vite entry HTML
+├── vite.config.js
+├── eslint.config.js
+├── public/                 # Static assets (icons, manifest)
+└── src/
+    ├── main.jsx            # App bootstrap
+    ├── App.jsx             # Layout & data orchestration
+    ├── api/
+    │   └── covid.js        # disease.sh client (fetch-based)
+    ├── components/
+    │   ├── Header.jsx
+    │   ├── Scope.jsx
+    │   ├── CountryPicker.jsx
+    │   ├── StatCards.jsx
+    │   ├── StatCard.jsx
+    │   ├── TrendChart.jsx
+    │   └── Footer.jsx
+    ├── hooks/
+    │   ├── useCountUp.js    # rAF count-up animation
+    │   └── useTheme.js      # theme detection + persistence
+    ├── utils/
+    │   └── format.js        # number / date formatters
+    └── styles/
+        └── global.css       # design tokens + component styles
+```
 
-## Learn More
+## 📊 Data & disclaimer
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+All figures are fetched client-side from the public
+[disease.sh](https://disease.sh) API and are provided **for informational
+purposes only**. Reporting methodology and update cadence vary by source and
+country.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📄 License
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Released under the MIT License.
